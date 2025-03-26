@@ -1,0 +1,13 @@
+version: "2"
+sql:
+- schema: "Models"
+  queries: "queries"
+  engine: "mysql"
+  gen:
+    go:
+      package: "authors"
+      out: "mysql"
+  database:
+    uri: "mysql://root:root@tcp(localhost:3306)/desktop_app;"
+  rules:
+    - sqlc/db-prepare
