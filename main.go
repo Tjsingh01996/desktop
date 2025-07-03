@@ -4,6 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"image/color"
+	"log"
+
+	_ "net/http/pprof" // Register pprof handlers
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -29,15 +32,24 @@ func main2() {
 	w.ShowAndRun()
 }
 func main() {
+	log.SetFlags(log.LUTC | log.Ldate | log.Ltime | log.Lshortfile)
+	// go func() {
+	// 	log.Println("Starting pprof server on :6060")
+	// 	if err := http.ListenAndServe("localhost:6060", nil); err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// }()
 	ctx, stop := context.WithCancel(context.Background())
 	defer stop()
 	myApp := app.New()
 	database.GetDbConnection()
+
 	myWindow := myApp.NewWindow("TabContainer Widget")
 	ctx = context.WithValue(ctx, "currentW", myWindow)
 	myApp.Settings().SetTheme(newAppTheme(theme.VariantLight))
-	chatPage := Pages.ChatBox(ctx)
-	myWindow.SetContent(chatPage)
+	// chatPage := Pages.ChatBox(ctx)
+	loginPage := Pages.LoginPage(ctx)
+	myWindow.SetContent(loginPage)
 	myWindow.Resize(fyne.NewSize(400, 300))
 	myWindow.ShowAndRun()
 }
@@ -57,5 +69,4 @@ func Layout(ctx context.Context, content fyne.CanvasObject) fyne.CanvasObject {
 	layout := layouts.NewAppLayout(top, sidebar, nil, content)
 	objs := []fyne.CanvasObject{top, sidebar, nil, content}
 	return container.New(layout, objs...)
-
 }

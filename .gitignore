@@ -2,5 +2,9 @@
 .vscode/launch.json
 
 .venv
-env/
+.env/
 venv/
+./.env
+__debug_bin701427148
+my-app.code-workspace
+.vscode

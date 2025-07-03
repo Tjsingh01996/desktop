@@ -1,0 +1,16 @@
+middlewares function created 
+- need to set global middlewares
+- 
+
+
+show login error in login page 1 ✅
+
+write test cases for ui
+
+show list of user to send message
+
+save messages list for particular chat
+
+clean up code 
+
+implement middleware to validate payload and struct

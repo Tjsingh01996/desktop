@@ -45,7 +45,7 @@ def load_obj(filename):
     return np.array(vertices, dtype=np.float32), np.array(faces, dtype=np.int32)
 
 # Load Car Model
-vertices, faces = load_obj("./Car.obj")
+vertices, faces = load_obj("./base.obj")
 
 # Transformations
 def multiply_matrix_vector(mat, vec):
@@ -88,9 +88,9 @@ def render():
     # print(theta)
 
     transformed_vertices = [multiply_matrix_vector(A_x, v ) for v in vertices]
-    transformed_vertices = [multiply_matrix_vector(A_z, v ) for v in transformed_vertices]
+    # transformed_vertices = [multiply_matrix_vector(A_z, v ) for v in transformed_vertices]
     
-    projected_vertices = [multiply_matrix_vector(matProj, v + np.array([0, 0, 10])) for v in transformed_vertices]
+    projected_vertices = [multiply_matrix_vector(matProj, v + np.array([0, 0, 30])) for v in transformed_vertices]
     points = [getXY(v) for v in projected_vertices]
 
     for f in faces:
@@ -108,6 +108,7 @@ while running:
             running = False
 
     theta += dt
+    
     render()
 
 pygame.quit()

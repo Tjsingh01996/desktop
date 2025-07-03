@@ -17,6 +17,7 @@ var (
 
 func GetDbConnection() *sql.DB {
 	once.Do(func() {
+		log.Println("it called bro")
 		cfg := mysql.Config{
 			User:                 "root",
 			Passwd:               "root",

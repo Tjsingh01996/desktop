@@ -3,7 +3,6 @@ package Pages
 import (
 	"context"
 	"image/color"
-	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -34,8 +33,8 @@ func loginForm(ctx context.Context) *fyne.Container {
 	userNameInput.SetPlaceHolder("User Name")
 
 	passwordProps := components.NewPasswordInput()
-	passwordValidator := validators.Password(8, "")
-	passwordProps.SetValidations(passwordValidator)
+	// passwordValidator := validators.Password(8, "")
+	// passwordProps.SetValidations(passwordValidator)
 	passwordProps.SetPlaceHolder("Password")
 
 	form := widget.NewForm(
@@ -43,15 +42,17 @@ func loginForm(ctx context.Context) *fyne.Container {
 		widget.NewFormItem("Email", passwordProps),
 	)
 	form.OnSubmit = func() {
-		loggedIn, err := authService.Login(ctx, "Tejveer Singh", "tejveer.singh@simsaw.com")
+		user, err := authService.Login(ctx, userNameInput.Text, passwordProps.Text)
 		if err != nil {
-			log.Print("here si an error during login", err)
+			components.ShowError("Login Error", err, currentW)
 			return
 		}
-		if loggedIn == true {
-			currentW.SetContent(ChatBox(ctx))
-			log.Print("you are logged in Bro")
+		if user["id"] == nil {
+			return
 		}
+		ctx = context.WithValue(ctx, "currentUser", user)
+		chat := ChatBox(ctx)
+		currentW.SetContent(chat)
 	}
 	form.SetOnValidationChanged(func(err error) {
 	})
